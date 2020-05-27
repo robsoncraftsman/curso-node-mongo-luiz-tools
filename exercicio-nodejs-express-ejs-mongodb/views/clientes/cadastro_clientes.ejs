@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title><%= messages.cliente.cadastro.title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <h1><%= messages.cliente.cadastro.title %></h1>
+    <form action="/clientes/save" method="POST">
+      <table>
+        <tbody>
+          <tr>
+            <td><%= messages.cliente.nome %></td>
+            <td><input type="text" name="nome" value="<%= cliente.nome %>"/></td>
+          </tr>
+          <tr>
+            <td><%= messages.cliente.idade %></td>
+            <td><input type="number" name="idade" value="<%= cliente.idade %>"/></td>
+          </tr>
+          <tr>
+            <td><%= messages.cliente.uf %></td>
+            <td>
+                <select name="uf">
+                    <option value=""></option>"
+                    <option value="PR" <%= cliente.uf=='PR'?'selected':'' %>>PR</option>
+                    <option value="SC" <%= cliente.uf=='SC'?'selected':'' %>>SC</option>
+                    <option value="RS" <%= cliente.uf=='RS'?'selected':'' %>>RS</option>
+                </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <input type="hidden" name="id" value="<%= cliente._id %>" />
+      <input type="submit" value="<%= messages.botao.salvar %>"/>
+    </form>
+  </body>
+</html>

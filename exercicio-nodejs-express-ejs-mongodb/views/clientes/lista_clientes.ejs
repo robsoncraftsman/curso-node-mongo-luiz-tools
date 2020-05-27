@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title><%= messages.cliente.lista.title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <h1><%= messages.cliente.lista.title %></h1>
+    <table>
+      <thead>
+        <th><%= messages.cliente.nome %></th>
+        <th><%= messages.cliente.idade %></th>
+        <th><%= messages.cliente.uf %></th>
+        <th></th>
+      </thead>
+      <tbody>
+        <% clientes.forEach(function(item){ %>
+        <tr>
+          <td><a href="/clientes/edit/<%= item._id %>"><%= item.nome %></a></td>
+          <td><%= item.idade %></td>
+          <td><%= item.uf %></td>
+          <td>
+            <a href="/clientes/delete/<%= item._id %>" onclick="return confirm('<%= messages.confirmacaoExclusao %>');"><%= messages.botao.excluir%></a>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <a href="/clientes/new"><%= messages.botao.novo %></a>
+  </body>
+</html>
