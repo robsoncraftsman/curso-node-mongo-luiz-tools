@@ -16,8 +16,12 @@ function updateCliente(id, cliente, callback){
     global.conn.collection("clientes").replaceOne({_id: objectId(id) }, cliente, callback);
 }
 
+function updateDadosCliente(id, cliente, callback){
+    global.conn.collection("clientes").updateOne({_id: objectId(id) }, {$set: cliente}, callback);
+}
+
 function deleteCliente(id, callback){
     global.conn.collection("clientes").removeOne({_id: objectId(id) }, callback);
 }
 
-module.exports = { findCliente, findClientes, insertCliente, updateCliente, deleteCliente }
+module.exports = { findCliente, findClientes, insertCliente, updateCliente, updateDadosCliente, deleteCliente }
