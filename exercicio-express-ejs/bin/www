@@ -7,7 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('exercicio-express-ejs:server');
 var http = require('http');
-require("dotenv").config();
+require("dotenv-safe").config();
 var db = require('../models/db');
 
 /**
