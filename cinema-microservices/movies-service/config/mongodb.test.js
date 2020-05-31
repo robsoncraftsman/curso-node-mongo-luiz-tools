@@ -1,20 +1,19 @@
-const test = require("tape");
+const test = require("blue-tape");
 const mongodb = require("./mongodb");
 
 function runTests() {
-  test("MongoDB connection", (t) => {
-    (async () => {
-      const db = await mongodb.connect();
-      t.assert(db, "Connected successfully");
-      t.end();
-    })();
+  test("MongoDB connection", async (t) => {
+    return mongodb
+      .connect()
+      .then((db) => t.assert(db, "Connected successfully"));
   });
 
-  test("MongoDB disconnection", (t) => {
-    (async () => {
-      t.assert(await mongodb.disconnect(), "Disconected successfully");
-      t.end();
-    })();
+  test("MongoDB disconnection", async (t) => {
+    return mongodb
+      .disconnect()
+      .then((disconnected) =>
+        t.assert(disconnected, "Disconected successfully")
+      );
   });
 }
 
