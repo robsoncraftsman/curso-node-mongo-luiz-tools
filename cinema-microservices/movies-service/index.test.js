@@ -4,6 +4,8 @@ require("./config/mongodb.test").runTests();
 
 require("./repository/moviesRepository.test").runTests();
 
+require("./server/server.test").runTests();
+
 /*
 #Comandos para inicializar o database
 
