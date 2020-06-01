@@ -35,7 +35,7 @@ function runTests() {
           });
       });
 
-      t.assert(res.body, "Movies By Id returned");
+      t.assert(res.body && res.body._id === id, "Movies By Id returned");
       await moviesRepository.disconnect();
       await server.stop();
     });
