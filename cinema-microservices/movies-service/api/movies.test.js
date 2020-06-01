@@ -2,12 +2,12 @@ const test = require("blue-tape");
 const supertest = require("supertest");
 const movies = require("./movies");
 const server = require("../server/server");
-const moviesRepository = require("../repository/moviesRepository");
+const repository = require("../repository/repository");
 
 function runTests() {
   test("GET /movies", async (t) => {
     return server
-      .start(movies, moviesRepository)
+      .start(movies, repository)
       .then(async (app) => {
         const res = await new Promise((resolve, reject) => {
           supertest(app)
@@ -21,14 +21,14 @@ function runTests() {
         t.assert(res.body && res.body.length > 0, "All Movies returned");
       })
       .finally(async () => {
-        await moviesRepository.disconnect();
+        await repository.disconnect();
         await server.stop();
       });
   });
 
   test("GET /movies/:id", async (t) => {
     return server
-      .start(movies, moviesRepository)
+      .start(movies, repository)
       .then(async (app) => {
         const id = "5ed0713c380e6d955fcf4406";
         const res = await new Promise((resolve, reject) => {
@@ -44,14 +44,14 @@ function runTests() {
         t.assert(res.body && res.body._id === id, "Movies By Id returned");
       })
       .finally(async () => {
-        await moviesRepository.disconnect();
+        await repository.disconnect();
         await server.stop();
       });
   });
 
   test("GET /movies/premieres", async (t) => {
     return server
-      .start(movies, moviesRepository)
+      .start(movies, repository)
       .then(async (app) => {
         const res = await new Promise((resolve, reject) => {
           supertest(app)
@@ -65,7 +65,7 @@ function runTests() {
         t.assert(res.body && res.body.length > 0, "Premiere Movies returned");
       })
       .finally(async () => {
-        await moviesRepository.disconnect();
+        await repository.disconnect();
         await server.stop();
       });
   });
