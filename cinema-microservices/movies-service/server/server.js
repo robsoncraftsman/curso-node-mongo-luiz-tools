@@ -10,12 +10,11 @@ async function start(api, repository) {
     app.use(helmet());
     app.use((err, req, res, next) => {
       reject(err);
+      res.status(500).send("Something went wrong!");
     });
 
     api(app, repository);
-    server = app.listen(parseInt(process.env.SERVER_PORT), () =>
-      resolve(server)
-    );
+    server = app.listen(parseInt(process.env.SERVER_PORT), () => resolve(app));
   });
 }
 

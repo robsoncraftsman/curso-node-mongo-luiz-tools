@@ -5,7 +5,9 @@ function apiMock(app, repo) {}
 
 function runTests() {
   test("Server Start", async (t) => {
-    return server.start(apiMock, null).then(t.assert(server, "Server started"));
+    return server
+      .start(apiMock, null)
+      .then((app) => t.assert(app, "Server started"));
   });
 
   test("Server Stop", async (t) => {

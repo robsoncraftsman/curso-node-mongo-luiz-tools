@@ -6,6 +6,8 @@ require("./repository/moviesRepository.test").runTests();
 
 require("./server/server.test").runTests();
 
+require("./api/movies.test").runTests();
+
 /*
 #Comandos para inicializar o database
 
