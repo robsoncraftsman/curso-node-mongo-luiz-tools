@@ -5,6 +5,37 @@ const server = require("../server/server");
 const repository = require("../repository/repository");
 
 function runTests() {
+  test("POST /movies", async (t) => {
+    return server
+      .start(movies, repository)
+      .then(async (app) => {
+        const res = await new Promise((resolve, reject) => {
+          supertest(app)
+            .post("/movies")
+            .send({
+              titulo: "Vingadores",
+              sinopse: "Heróis mais poderosos da Terra",
+              duracao: 120,
+              dataLancamento: new Date(),
+              imagem:
+                "https://upload.wikimedia.org/wikipedia/en/f/f9/TheAvengers2012Poster.jpg",
+              categorias: ["Aventura"],
+            })
+            .expect("Content-Type", /json/)
+            .expect(200)
+            .end((err, res) => {
+              resolve(res);
+            });
+        });
+        t.assert(res && res.body.insertedCount > 0, "Movie Added");
+        console.log(res.body);
+      })
+      .finally(async () => {
+        await repository.disconnect();
+        await server.stop();
+      });
+  });
+
   test("GET /movies", async (t) => {
     return server
       .start(movies, repository)

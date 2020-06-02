@@ -8,6 +8,8 @@ async function start(api, repository) {
     const app = express();
     app.use(morgan("dev"));
     app.use(helmet());
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: false }));
     app.use((err, req, res, next) => {
       reject(err);
       res.status(500).send("Something went wrong!");
