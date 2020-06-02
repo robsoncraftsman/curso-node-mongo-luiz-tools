@@ -28,7 +28,6 @@ function runTests() {
             });
         });
         t.assert(res && res.body.insertedCount > 0, "Movie Added");
-        console.log(res.body);
       })
       .finally(async () => {
         await repository.disconnect();
