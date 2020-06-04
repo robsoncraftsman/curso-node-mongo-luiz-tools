@@ -60,5 +60,9 @@ typings/
 # next.js build output
 .next
 
-# vscode path
-.vscode
+# VisualStudioCode
+.vscode/*
+
+# VisualStudioCode Patch
+# Ignore all local history of files
+**/.history
