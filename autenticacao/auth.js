@@ -1,51 +1,47 @@
-const bcrypt = require('bcryptjs')  
-const LocalStrategy = require('passport-local').Strategy
+const userModel = require("./models/userModel");
+const bcrypt = require("bcryptjs");
+const LocalStrategy = require("passport-local").Strategy;
 
-module.exports = function(passport){
-   
-    //configuraremos o passport aqui
-    function findUser(username, callback){
-        global.db.collection("users").findOne({"username": username}, function(err, doc){
-            callback(err, doc);
-        })
-    }
+module.exports = function (passport) {
+  passport.serializeUser(function (user, done) {
+    done(null, user._id);
+  });
 
-    function findUserById(id, callback){
-        const objectId = require("mongodb").ObjectId;
-        global.db.collection("users").findOne({"_id": objectId(id)}, function(err, doc){
-            callback(err, doc);
-        })
-    }
+  passport.deserializeUser(function (id, done) {
+    userModel
+      .findUserById(id)
+      .then((user) => done(null, user))
+      .catch((err) => done(err, null));
+  });
 
-    passport.serializeUser(function(user, done){
-        done(null,user._id);
-    });
+  passport.use(
+    new LocalStrategy(
+      {
+        usernameField: "username",
+        passwordField: "password",
+      },
+      (username, password, done) => {
+        userModel
+          .findUser(username)
+          .then((user) => {
+            // usuário inexistente
+            if (!user) {
+              return done(null, false);
+            }
 
-    passport.deserializeUser(function(id, done){
-        findUserById(id, function(err,user){
-            done(err, user);
-        });
-    });
-
-    passport.use(new LocalStrategy( { 
-            usernameField: 'username',
-            passwordField: 'password'
-        },
-        (username, password, done) => {
-            findUser(username, (err, user) => {
-                if (err) { return done(err) }
-
-                // usuário inexistente
-                if (!user) { return done(null, false) }
-
-                // comparando as senhas
-                bcrypt.compare(password, user.password, (err, isValid) => {
-                    if (err) { return done(err) }
-                    if (!isValid) { return done(null, false) }
-                    return done(null, user)
-                })
-            })
-        }
-    ));
-
-}
+            // comparando as senhas
+            bcrypt.compare(password, user.password, (err, isValid) => {
+              if (err) {
+                return done(err);
+              }
+              if (!isValid) {
+                return done(null, false);
+              }
+              return done(null, user);
+            });
+          })
+          .catch((err) => done(err, null));
+      }
+    )
+  );
+};

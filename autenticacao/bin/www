@@ -1,19 +1,8 @@
 #!/usr/bin/env node
 require("dotenv-safe").load();
-const MongoClient = require("mongodb").MongoClient;
+const db = require("../models/db");
 
-global.mongoClient = new MongoClient(process.env.MONGO_CONNECTION, {
-  useUnifiedTopology: true,
-});
-
-global.mongoClient.connect(function (err, conn) {
-  if (err) {
-    return console.log(err);
-  }
-
-  console.log("Conectou no banco de dados");
-  global.db = conn.db(process.env.MONGO_DB);
-  //coloque todo o código antigo do www aqui dentro
+db.connect().then(() => {
   /**
    * Module dependencies.
    */

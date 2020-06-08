@@ -1,6 +1,7 @@
 const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
+const db = require("./models/db");
 
 var createError = require("http-errors");
 var express = require("express");
@@ -25,11 +26,12 @@ var app = express();
 
 //autenticação
 require("./auth")(passport);
+
 app.use(
   session({
     store: new MongoStore({
-      client: global.mongoClient,
-      dbName: process.env.MONGO_DB,
+      client: db.getMongoClient(),
+      dbName: process.env.DATABASE_NAME,
       ttl: 30 * 60, // = 30 minutos de sessão
     }),
     secret: process.env.MONGO_STORE_SECRET, //configure um segredo seu aqui
