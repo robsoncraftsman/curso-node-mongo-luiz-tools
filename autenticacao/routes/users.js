@@ -1,6 +1,7 @@
 const express = require("express");
 const userModel = require("../models/userModel");
 const router = express.Router();
+const mail = require("../mail");
 
 /* GET users listing. */
 router.get("/signup", function (req, res, next) {
@@ -10,44 +11,39 @@ router.get("/signup", function (req, res, next) {
 });
 
 /* POST users */
-router.post("/signup", function (req, res, next) {
-  userModel
-    .createUser(req.body.username, req.body.password, req.body.email)
-    .then(() => {
-      const text = `Obrigado por se cadastrar ${req.body.username}, sua senha é ${req.body.password}`;
-      console.log(text);
-      /*
-      require("../mail")(
-        req.body.email,
-        "Cadastro realizado com sucesso!",
-        text
-      );
-      */
-      res.redirect("/");
-    })
-    .catch((err) => {
-      console.log(err);
-      res.redirect("/users/signup?fail=true");
-    });
+router.post("/signup", async function (req, res, next) {
+  try {
+    await userModel.createUser(
+      req.body.username,
+      req.body.password,
+      req.body.email
+    );
+
+    const text = `Obrigado por se cadastrar ${req.body.username}, sua senha é ${req.body.password}`;
+    await mail.send(req.body.email, "Cadastro realizado com sucesso!", text);
+
+    res.redirect("/");
+  } catch (err) {
+    const error = new Error(err);
+    error.status = 500;
+    return next(error);
+  }
 });
 
 /* POST forgot */
-router.post("/forgot", function (req, res, next) {
-  userModel
-    .resetPassword(req.body.email)
-    .then(({ result, newPassword }) => {
-      console.log(result);
-      const text = `Olá,sua nova senha é ${newPassword}. Sua senha antiga, não funciona mais!`;
-      console.log(text);
-      /*
-      require("../mail")(req.body.email, "Sua senha foi alterada!", text);
-      */
-      res.redirect("/");
-    })
-    .catch((err) => {
-      console.log(err);
-      res.redirect("/login?reset=true");
-    });
+router.post("/forgot", async function (req, res, next) {
+  try {
+    const { newPassword } = await userModel.resetPassword(req.body.email);
+
+    const text = `Olá,sua nova senha é ${newPassword}. Sua senha antiga, não funciona mais!`;
+    await mail.send(req.body.email, "Sua senha foi alterada!", text);
+
+    res.redirect("/");
+  } catch (err) {
+    const error = new Error(err);
+    error.status = 500;
+    return next(error);
+  }
 });
 
 /** GET forgot */
