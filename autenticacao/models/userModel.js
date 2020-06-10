@@ -21,12 +21,12 @@ async function findUserById(id) {
     .then((user) => user);
 }
 
-async function createUser(username, password, email, callback) {
+async function createUser(username, password, email, profile) {
   const cryptoPassword = bcrypt.hashSync(password, 10);
   return db
     .getDatabase()
     .collection("users")
-    .insertOne({ username, password: cryptoPassword, email })
+    .insertOne({ username, password: cryptoPassword, email, profile })
     .then((result) => result);
 }
 
@@ -62,7 +62,7 @@ module.exports = {
   findUserById,
   createUser,
   resetPassword,
-  TAMANHO_PAGINA,
   countAll,
   findAllUsers,
+  TAMANHO_PAGINA,
 };

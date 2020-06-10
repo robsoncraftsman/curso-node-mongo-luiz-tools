@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <body>
     <h1>Signup</h1>
@@ -6,12 +6,19 @@
       Username: <input name="username" type="text" /><br />
       Password: <input name="password" type="password" /><br />
       E-mail: <input name="email" type="text" /><br />
-      <input type="submit" value="Save" />
+      Perfil:
+      <select name="profile">
+        <option value="USER">Usuário</option>
+        <option value="ADMIN">Administrador</option>
+      </select>
+      <p>
+        <input type="submit" value="Save" />
+      </p>
     </form>
     <% if(message) { %>
-      <p>
-        <label style="color:Red"><%= message %></label>
-      </p>
+    <p>
+      <label style="color: Red;"><%= message %></label>
+    </p>
     <%}%>
   </body>
 </html>

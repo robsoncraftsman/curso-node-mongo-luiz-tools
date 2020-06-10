@@ -1,5 +1,6 @@
 const test = require("blue-tape");
 const userModel = require("./userModel");
+const userProfiles = require("./userProfiles");
 const db = require("./db");
 
 function runTests() {
@@ -36,7 +37,13 @@ function runTests() {
     const username = "MARIO";
     const password = "abc";
     const email = "mario@email.com";
-    const result = await userModel.createUser(username, password, email);
+    const profile = userProfiles.USER_PROFILE;
+    const result = await userModel.createUser(
+      username,
+      password,
+      email,
+      profile
+    );
     //console.log(JSON.stringify(result, null, 2));
 
     t.assert(result.insertedCount > 0, "User created");

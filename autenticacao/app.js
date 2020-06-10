@@ -2,6 +2,7 @@ const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const db = require("./models/db");
+const permissions = require("./permissions");
 
 var createError = require("http-errors");
 var express = require("express");
@@ -11,7 +12,7 @@ var logger = require("morgan");
 
 global.authenticationMiddleware = () => {
   return function (req, res, next) {
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && permissions.isAuthorized(req)) {
       return next();
     }
     res.redirect("/login?fail=true");
@@ -21,6 +22,7 @@ global.authenticationMiddleware = () => {
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var loginRouter = require("./routes/login");
+var reportsRouter = require("./routes/reports");
 
 var app = express();
 
@@ -55,6 +57,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", loginRouter);
 app.use("/index", indexRouter);
 app.use("/users", usersRouter);
+app.use("/reports", reportsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -19,6 +19,7 @@ router.get("/:pagina?", global.authenticationMiddleware(), async function (
     usersCount,
     paginaAtual,
     totalPaginas,
+    profile: req.user.profile,
   });
 });
 

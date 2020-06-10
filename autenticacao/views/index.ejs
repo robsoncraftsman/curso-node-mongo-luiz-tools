@@ -11,6 +11,7 @@
       <tr style="font-weight: bold;">
         <td width="150px">Nome</td>
         <td>E-Mail</td>
+        <td>Perfil</td>
       </tr>
       <% 
         if(users) {
@@ -19,6 +20,7 @@
             <tr>
               <td width="150px"><%= user.username %></td>
               <td><%= user.email %></td>
+              <td><%= user.profile %></td>
             </tr>
             <%
           }
@@ -47,6 +49,11 @@
     <p><%= usersCount %> usuários cadastrados</p>
     <p>
       <a href="/users/signup">Cadastrar</a>
+      <p>
+        <% if(profile === 'ADMIN'){ %>
+          <a href="/reports">Relatórios</a>
+        <% } %>
+      </p>
       <form action="/logoff" method="POST">
         <input type="submit" value="Logoff" />
       </form>

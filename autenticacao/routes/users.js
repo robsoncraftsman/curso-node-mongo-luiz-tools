@@ -16,7 +16,8 @@ router.post("/signup", async function (req, res, next) {
     await userModel.createUser(
       req.body.username,
       req.body.password,
-      req.body.email
+      req.body.email,
+      req.body.profile
     );
 
     const text = `Obrigado por se cadastrar ${req.body.username}, sua senha é ${req.body.password}`;
