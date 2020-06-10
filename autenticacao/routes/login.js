@@ -11,7 +11,10 @@ router.get("/", function (req, res, next) {
 /* GET login page */
 router.get("/login", function (req, res) {
   if (req.query.fail)
-    res.render("login", { message: "Usuário e/ou senha incorretos!" });
+    res.render("login", {
+      title: "Login",
+      message: "Usuário e/ou senha incorretos!",
+    });
   else res.render("login", { message: null });
 });
 

@@ -1,24 +1,19 @@
-<!DOCTYPE html>
-<html>
-  <body>
-    <h1>Signup</h1>
-    <form action="/users/signup" method="POST">
-      Username: <input name="username" type="text" /><br />
-      Password: <input name="password" type="password" /><br />
-      E-mail: <input name="email" type="text" /><br />
-      Perfil:
-      <select name="profile">
-        <option value="USER">Usuário</option>
-        <option value="ADMIN">Administrador</option>
-      </select>
-      <p>
-        <input type="submit" value="Save" />
-      </p>
-    </form>
-    <% if(message) { %>
-    <p>
-      <label style="color: Red;"><%= message %></label>
-    </p>
-    <%}%>
-  </body>
-</html>
+<%- include top.ejs %>
+<form action="/users/signup" method="POST">
+  Username: <input name="username" type="text" /><br />
+  Password: <input name="password" type="password" /><br />
+  E-mail: <input name="email" type="text" /><br />
+  Perfil:
+  <select name="profile">
+    <option value="USER">Usuário</option>
+    <option value="ADMIN">Administrador</option>
+  </select>
+  <p>
+    <input type="submit" value="Save" />
+  </p>
+</form>
+<% if(message) { %>
+<p>
+  <label style="color: Red;"><%= message %></label>
+</p>
+<%}%> <%- include botton.ejs %>

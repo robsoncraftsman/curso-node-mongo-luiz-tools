@@ -6,8 +6,11 @@ const mail = require("../mail");
 /* GET users listing. */
 router.get("/signup", function (req, res, next) {
   if (req.query.fail)
-    res.render("signup", { message: "Falha no cadastro do usuário!" });
-  else res.render("signup", { message: null });
+    res.render("signup", {
+      title: "Erro ao cadastrar Usuário",
+      message: "Falha no cadastro do usuário!",
+    });
+  else res.render("signup", { title: "Cadastrar Usuário", message: null });
 });
 
 /* POST users */
@@ -49,7 +52,7 @@ router.post("/forgot", async function (req, res, next) {
 
 /** GET forgot */
 router.get("/forgot", function (req, res, next) {
-  res.render("forgot", {});
+  res.render("forgot", { title: "Esqueci a senha" });
 });
 
 module.exports = router;

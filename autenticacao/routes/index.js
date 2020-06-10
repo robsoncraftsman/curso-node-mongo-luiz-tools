@@ -14,7 +14,7 @@ router.get("/:pagina?", global.authenticationMiddleware(), async function (
   const users = await userModel.findAllUsers(paginaAtual);
 
   res.render("index", {
-    title: req.user.username,
+    title: `Bem vindo ${req.user.username}`,
     users,
     usersCount,
     paginaAtual,
