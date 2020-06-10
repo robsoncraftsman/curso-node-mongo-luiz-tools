@@ -3,6 +3,8 @@ const utils = require("../utils");
 const db = require("./db");
 const objectId = require("mongodb").ObjectId;
 
+const TAMANHO_PAGINA = 5;
+
 async function findUser(username) {
   return db
     .getDatabase()
@@ -40,4 +42,27 @@ async function resetPassword(email) {
     });
 }
 
-module.exports = { findUser, findUserById, createUser, resetPassword };
+async function countAll() {
+  return db.getDatabase().collection("users").countDocuments();
+}
+
+async function findAllUsers(pagina) {
+  const totalSkip = (pagina - 1) * TAMANHO_PAGINA;
+  return db
+    .getDatabase()
+    .collection("users")
+    .find()
+    .skip(totalSkip)
+    .limit(TAMANHO_PAGINA)
+    .toArray();
+}
+
+module.exports = {
+  findUser,
+  findUserById,
+  createUser,
+  resetPassword,
+  TAMANHO_PAGINA,
+  countAll,
+  findAllUsers,
+};

@@ -7,7 +7,46 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+    <table>
+      <tr style="font-weight: bold;">
+        <td width="150px">Nome</td>
+        <td>E-Mail</td>
+      </tr>
+      <% 
+        if(users) {
+          for (user of users) {
+            %>
+            <tr>
+              <td width="150px"><%= user.username %></td>
+              <td><%= user.email %></td>
+            </tr>
+            <%
+          }
+        }
+      %>
+      <tr>
+        <td colspan="2">
+          <%
+            for(var i=1; i <= totalPaginas; i++){
+              if(paginaAtual === i){
+          %>
+                <%= i %> | 
+          <% 
+              } else {
+          %>
+              <a href="/index/<%= i %>">
+                <%= i %>
+              </a> | 
+          <%
+            } 
+          }
+          %>
+        </td>
+      </tr>
+    </table>
+    <p><%= usersCount %> usuários cadastrados</p>
     <p>
+      <a href="/users/signup">Cadastrar</a>
       <form action="/logoff" method="POST">
         <input type="submit" value="Logoff" />
       </form>

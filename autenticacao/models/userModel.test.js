@@ -37,17 +37,31 @@ function runTests() {
     const password = "abc";
     const email = "mario@email.com";
     const result = await userModel.createUser(username, password, email);
-
     //console.log(JSON.stringify(result, null, 2));
+
     t.assert(result.insertedCount > 0, "User created");
   });
 
   testModel("UserModel resetPassword", async (t) => {
     const email = "mario@email.com";
     const { result, newPassword } = await userModel.resetPassword(email);
-
     //console.log(JSON.stringify(result, null, 2));
+
     t.assert(result.modifiedCount > 0 && newPassword, "Password reseted");
+  });
+
+  testModel("UserModel countAll", async (t) => {
+    const count = await userModel.countAll();
+    //console.log(count);
+
+    t.assert(count > 0, "Users counted");
+  });
+
+  testModel("UserModel findAllUsers", async (t) => {
+    const users = await userModel.findAllUsers(1);
+    //console.log(users);
+
+    t.assert(users && users.length > 0, "Users returned");
   });
 }
 
