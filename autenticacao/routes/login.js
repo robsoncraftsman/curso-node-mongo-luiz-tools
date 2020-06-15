@@ -10,12 +10,13 @@ router.get("/", function (req, res, next) {
 
 /* GET login page */
 router.get("/login", function (req, res) {
+  const title = "Login";
   if (req.query.fail)
     res.render("login", {
-      title: "Login",
+      title,
       message: "Usuário e/ou senha incorretos!",
     });
-  else res.render("login", { message: null });
+  else res.render("login", { title, message: null });
 });
 
 /* POST validate login page */
@@ -27,7 +28,7 @@ router.post(
   })
 );
 
-router.post("/logoff", function (req, res, next) {
+router.get("/logoff", function (req, res, next) {
   req.logOut();
   res.redirect("/login");
 });

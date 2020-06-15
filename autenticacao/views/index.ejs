@@ -1,53 +1,53 @@
 <%- include top.ejs %>
-    <table>
-      <tr style="font-weight: bold;">
-        <td width="150px">Nome</td>
-        <td>E-Mail</td>
-        <td>Perfil</td>
-      </tr>
-      <% 
+    <table class="table table-bordered table-striped table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th>Nome</th>
+          <th>E-Mail</th>
+          <th>Perfil</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% 
         if(users) {
           for (user of users) {
             %>
             <tr>
-              <td width="150px"><%= user.username %></td>
+              <td><%= user.username %></td>
               <td><%= user.email %></td>
               <td><%= user.profile %></td>
             </tr>
             <%
           }
         }
-      %>
-      <tr>
-        <td colspan="2">
-          <%
-            for(var i=1; i <= totalPaginas; i++){
-              if(paginaAtual === i){
-          %>
-                <%= i %> | 
-          <% 
-              } else {
-          %>
-              <a href="/index/<%= i %>">
-                <%= i %>
-              </a> | 
-          <%
-            } 
-          }
-          %>
-        </td>
-      </tr>
+        %>
+      </tbody>
     </table>
-    <p><%= usersCount %> usuários cadastrados</p>
+
+    <nav>
+      <ul class="pagination">
+      <%
+      for(var i=1; i <= totalPaginas; i++){
+      %>
+        <li class="page-item">
+          <a href="/index/<%= i %>" class="page-link">
+            <%= i %>
+          </a>
+        </li>
+      <%
+      }
+      %>
+      </ul>
+    </nav>
+
+    <div class="alert alert-info">
+      <%= usersCount %> usuários cadastrados
+    </div>
     <p>
-      <a href="/users/signup">Cadastrar</a>
-      <p>
-        <% if(profile === 'ADMIN'){ %>
-          <a href="/reports">Relatórios</a>
-        <% } %>
-      </p>
-      <form action="/logoff" method="POST">
-        <input type="submit" value="Logoff" />
-      </form>
+      <a href="/users/signup" class="btn btn-primary">Cadastrar</a>
+    <% if(profile === 'ADMIN'){ %>
+      <a href="/reports" class="btn btn-secondary">Relatórios</a>
+    <% } %>
+      <a href="/logoff" class="btn btn-secondary"/>Sair</a>
     </p>
 <%- include botton.ejs %>
